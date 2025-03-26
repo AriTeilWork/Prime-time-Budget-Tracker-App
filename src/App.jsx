@@ -26,13 +26,21 @@ const addTransaction = (e) => {
     text,
     amount: parseFloat(amount),
   };
-  updateLocalStorage([...transactions, newTransaction]);
-  updateValues([...transactions, newTransaction]);
 
-  setTransactions([...transactions, newTransaction]);
+  const updatedTransactions = [...transactions, newTransaction];
+  updateLocalStorage(updatedTransactions);
+  updateValues(updatedTransactions);
+
+  setTransactions(updatedTransactions);
   setText('');
   setAmount('');
 };
+
+function updateLocalStorage(transactions) {
+  localStorage.setItem('transactions', JSON.stringify(transactions));
+}
+
+
 
 const calculateBalance = () =>
   transactions.reduce((acc, transaction) => acc + transaction.amount, 0).toFixed(2);
