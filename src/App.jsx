@@ -30,6 +30,7 @@ const addTransaction = (e) => {
   const updatedTransactions = [...transactions, newTransaction];
   updateLocalStorage(updatedTransactions);
   updateValues(updatedTransactions);
+  updateLocalStorage(updatedTransactions);
 
   setTransactions(updatedTransactions);
   setText('');
