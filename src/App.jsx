@@ -7,7 +7,16 @@ function App() {
   const [text, setText] = useState('');
   const [amount, setAmount] = useState('');
 
-// Function to remove a transaction
+
+  useEffect(() => {
+    const storedTransactions = localStorage.getItem('transactions');
+    if (storedTransactions) {
+      setTransactions(JSON.parse(storedTransactions));
+    }
+  }, []);
+
+
+
 function removeTransaction(id) {
   setTransactions(transactions.filter(transaction => transaction.id !== id));
   updateLocalStorage(transactions.filter(transaction => transaction.id !== id));
