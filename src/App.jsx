@@ -1,35 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [transactions, setTransactions] = useState([]);
+  const [text, setText] = useState('');
+  const [amount, setAmount] = useState('');
+
+  const addTransaction = (e) => {
+    e.preventDefault();
+    if (!text || !amount) {
+      alert('Please add a description and amount');
+      return;
+    }
+
+    const newTransaction = {
+      id: Math.floor(Math.random() * 100000000),
+      text,
+      amount: parseFloat(amount),
+    };
+
+    setTransactions([...transactions, newTransaction]);
+    setText('');
+    setAmount('');
+  };
+
+  const removeTransaction = (id) => {
+    setTransactions(transactions.filter((transaction) => transaction.id !== id));
+  };
+
+  const calculateBalance = () =>
+    transactions.reduce((acc, transaction) => acc + transaction.amount, 0).toFixed(2);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container">
+      <h1>Budget Tracker</h1>
+      <div className="balance-box">
+        <h3>Saldo</h3>
+        <div id="balance">{calculateBalance()}€</div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <form onSubmit={addTransaction}>
+        <label htmlFor="text">Description</label>
+        <input
+          type="text"
+          id="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Example: Smarket"
+        />
+        <label htmlFor="amount">Sum</label>
+        <input
+          type="number"
+          id="amount"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="Example -50 or +100"
+        />
+        <button type="submit">Add Transaction</button>
+      </form>
+      <h2>Transactions</h2>
+      <ul id="transaction-list">
+        {transactions.map((transaction) => (
+          <li
+            key={transaction.id}
+            className={transaction.amount < 0 ? 'expense' : 'income'}
+          >
+            {transaction.text}{' '}
+            <span>
+              {transaction.amount < 0 ? '-' : '+'}
+              {Math.abs(transaction.amount)}€
+            </span>
+            <button onClick={() => removeTransaction(transaction.id)}>Poista</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-export default App
+export default App;
