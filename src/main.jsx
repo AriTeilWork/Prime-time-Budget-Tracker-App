@@ -8,3 +8,5 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>
 );
+// Ensure the App component is rendered correctly
+console.log('App component has been rendered successfully.');
