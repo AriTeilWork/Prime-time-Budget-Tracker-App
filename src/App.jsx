@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import './App.css';
+import TransactionList from './TransactionList.jsx';
+import TransactionForm from './TransactionForm.jsx';
+import Balance from './Balance.jsx'; // Ensure Balance component is imported
 
 function App() {
   const [transactions, setTransactions] = useState([]);
-  const [text, setText] = useState('');
-  const [amount, setAmount] = useState('');
-  const [balance, setBalance] = useState(0); // Add state for balance if needed
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
     const storedTransactions = localStorage.getItem('transactions');
@@ -23,26 +24,11 @@ function App() {
     updateValues(updatedTransactions);
   }
 
-  const addTransaction = (e) => {
-    e.preventDefault();
-    if (!text || !amount) {
-      alert('Please add a description and amount');
-      return;
-    }
-
-    const newTransaction = {
-      id: Math.floor(Math.random() * 100000000),
-      text,
-      amount: parseFloat(amount),
-    };
-
-    const updatedTransactions = [...transactions, newTransaction];
+  const addTransaction = (transaction) => {
+    const updatedTransactions = [...transactions, transaction];
     setTransactions(updatedTransactions);
     updateLocalStorage(updatedTransactions);
     updateValues(updatedTransactions);
-
-    setText('');
-    setAmount('');
   };
 
   function updateLocalStorage(transactions) {
@@ -51,37 +37,15 @@ function App() {
 
   function updateValues(transactions) {
     const totalBalance = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
-    const income = transactions
-      .filter(transaction => transaction.amount > 0)
-      .reduce((acc, transaction) => acc + transaction.amount, 0);
-    const expense = transactions
-      .filter(transaction => transaction.amount < 0)
-      .reduce((acc, transaction) => acc + Math.abs(transaction.amount), 0);
-
-    setBalance(totalBalance.toFixed(2));
-    setIncome(income.toFixed(2));
-    setExpense(expense.toFixed(2));
     setBalance(totalBalance.toFixed(2));
   }
-
-  const calculateBalance = () =>
-    transactions.reduce((acc, transaction) => acc + transaction.amount, 0).toFixed(2);
 
   return (
     <div className="container">
       <h1>Budget Tracker</h1>
       <Balance balance={balance} />
-      <TransactionForm
-        text={text}
-        amount={amount}
-        setText={setText}
-        setAmount={setAmount}
-        addTransaction={addTransaction}
-      />
-      <TransactionList
-        transactions={transactions}
-        removeTransaction={removeTransaction}
-      />
+      <TransactionForm addTransaction={addTransaction} />
+      <TransactionList transactions={transactions} removeTransaction={removeTransaction} />
     </div>
   );
 }
