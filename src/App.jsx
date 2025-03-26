@@ -15,13 +15,13 @@ function App() {
     }
   }, []);
 
+  function removeTransaction(id) {
+    const updatedTransactions = transactions.filter(transaction => transaction.id !== id);
+    setTransactions(updatedTransactions);
+    updateLocalStorage(updatedTransactions);
+    updateValues(updatedTransactions);
+  }
 
-
-function removeTransaction(id) {
-  setTransactions(transactions.filter(transaction => transaction.id !== id));
-  updateLocalStorage(transactions.filter(transaction => transaction.id !== id));
-  updateValues(transactions.filter(transaction => transaction.id !== id));
-}
 
 const addTransaction = (e) => {
   e.preventDefault();
