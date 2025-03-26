@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  
   const [transactions, setTransactions] = useState([]);
   const [text, setText] = useState('');
   const [amount, setAmount] = useState('');
-
+  const [balance, setBalance] = useState(0); // Add state for balance if needed
 
   useEffect(() => {
     const storedTransactions = localStorage.getItem('transactions');
     if (storedTransactions) {
-      setTransactions(JSON.parse(storedTransactions));
+      const parsedTransactions = JSON.parse(storedTransactions);
+      setTransactions(parsedTransactions);
+      updateValues(parsedTransactions); // Update values on initial load
     }
   }, []);
 
@@ -22,47 +23,49 @@ function App() {
     updateValues(updatedTransactions);
   }
 
+  const addTransaction = (e) => {
+    e.preventDefault();
+    if (!text || !amount) {
+      alert('Please add a description and amount');
+      return;
+    }
 
-const addTransaction = (e) => {
-  e.preventDefault();
-  if (!text || !amount) {
-    alert('Please add a description and amount');
-    return;
-  }
+    const newTransaction = {
+      id: Math.floor(Math.random() * 100000000),
+      text,
+      amount: parseFloat(amount),
+    };
 
-  const newTransaction = {
-    id: Math.floor(Math.random() * 100000000),
-    text,
-    amount: parseFloat(amount),
+    const updatedTransactions = [...transactions, newTransaction];
+    setTransactions(updatedTransactions);
+    updateLocalStorage(updatedTransactions);
+    updateValues(updatedTransactions);
+
+    setText('');
+    setAmount('');
   };
 
-  const updatedTransactions = [...transactions, newTransaction];
-  updateLocalStorage(updatedTransactions);
-  updateValues(updatedTransactions);
-  updateLocalStorage(updatedTransactions);
+  function updateLocalStorage(transactions) {
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+  }
 
-  setTransactions(updatedTransactions);
-  setText('');
-  setAmount('');
-};
+  function updateValues(transactions) {
+    // Update balance or any other derived values
+    const totalBalance = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+    setBalance(totalBalance.toFixed(2));
+  }
 
-function updateLocalStorage(transactions) {
-  localStorage.setItem('transactions', JSON.stringify(transactions));
-}
+  const calculateBalance = () =>
+    transactions.reduce((acc, transaction) => acc + transaction.amount, 0).toFixed(2);
 
-
-
-const calculateBalance = () =>
-  transactions.reduce((acc, transaction) => acc + transaction.amount, 0).toFixed(2);
-
-return (
-  <div className="container">
-  <h1>Budget Tracker</h1>
-  <div className="balance-box">
-    <h3>Saldo</h3>
-    <div id="balance">{calculateBalance()}€</div>
-  </div>
-  <form onSubmit={addTransaction}>
+  return (
+    <div className="container">
+      <h1>Budget Tracker</h1>
+      <div className="balance-box">
+        <h3>Saldo</h3>
+        <div id="balance">{balance}€</div>
+      </div>
+      <form onSubmit={addTransaction}>
         <label htmlFor="text">Description</label>
         <input
           type="text"
