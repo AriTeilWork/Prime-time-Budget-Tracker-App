@@ -50,8 +50,17 @@ function App() {
   }
 
   function updateValues(transactions) {
-    // Update balance or any other derived values
     const totalBalance = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+    const income = transactions
+      .filter(transaction => transaction.amount > 0)
+      .reduce((acc, transaction) => acc + transaction.amount, 0);
+    const expense = transactions
+      .filter(transaction => transaction.amount < 0)
+      .reduce((acc, transaction) => acc + Math.abs(transaction.amount), 0);
+
+    setBalance(totalBalance.toFixed(2));
+    setIncome(income.toFixed(2));
+    setExpense(expense.toFixed(2));
     setBalance(totalBalance.toFixed(2));
   }
 
