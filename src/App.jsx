@@ -13,4 +13,23 @@ function removeTransaction(id) {
   updateLocalStorage();
   updateValues();
 }
+
+const addTransaction = (e) => {
+  e.preventDefault();
+  if (!text || !amount) {
+    alert('Please add a description and amount');
+    return;
+  }
+
+  const newTransaction = {
+    id: Math.floor(Math.random() * 100000000),
+    text,
+    amount: parseFloat(amount),
+  };
+
+  setTransactions([...transactions, newTransaction]);
+  setText('');
+  setAmount('');
+};
+
 }
