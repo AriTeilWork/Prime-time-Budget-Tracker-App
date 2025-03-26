@@ -24,27 +24,23 @@ function TransactionForm({ addTransaction }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="transaction-form">
-      <div>
-        <label htmlFor="text">Transaction Name</label>
-        <input
-          type="text"
-          id="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Enter transaction name"
-        />
-      </div>
-      <div>
-        <label htmlFor="amount">Amount</label>
-        <input
-          type="number"
-          id="amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder="Enter amount"
-        />
-      </div>
+    <form onSubmit={handleSubmit} id="transaction-form">
+      <label htmlFor="text">Description</label>
+      <input
+        type="text"
+        id="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Example: Smarket"
+      />
+      <label htmlFor="amount">Sum</label>
+      <input
+        type="number"
+        id="amount"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        placeholder="Example -50 or +100"
+      />
       <button type="submit">Add Transaction</button>
     </form>
   );

@@ -6,7 +6,7 @@ body {
   padding: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Align items at the top */
   height: 100vh;
 }
 
@@ -15,12 +15,16 @@ body {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 100%;
+  max-width: 400px; /* Adjusted for column layout */
   text-align: center;
+  display: flex;
+  flex-direction: column; /* Column layout */
+  gap: 20px; /* Space between sections */
 }
 
 h1 {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 24px;
   color: #4a90e2;
 }
@@ -28,9 +32,9 @@ h1 {
 .balance-box {
   background-color: #4a90e2;
   color: #fff;
-  padding: 10px;
+  padding: 15px;
   border-radius: 5px;
-  margin-bottom: 20px;
+  text-align: center;
 }
 
 .balance-box h3 {
@@ -39,7 +43,7 @@ h1 {
 }
 
 #balance {
-  font-size: 24px;
+  font-size: 28px; /* Slightly larger for emphasis */
   font-weight: bold;
   margin: 10px 0;
 }
@@ -47,7 +51,7 @@ h1 {
 form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 10px; /* Match spacing from the original version */
   margin-bottom: 20px;
 }
 
@@ -95,7 +99,7 @@ button:hover {
 }
 
 #transaction-list li.income {
-  border-left: 5px solid #4a90e2;
+  border-left: 5px solid #2ecc71;
 }
 
 #transaction-list li.expense {
