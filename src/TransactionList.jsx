@@ -5,7 +5,8 @@ const TransactionList = ({ transactions }) => {
         <div>
             <h3>Transaction List</h3>
             <ul>
-                {/* Transactions will be rendered here */}
+                
+                {transactions.map((transaction) => (<li key={transaction.id}> {transaction.description} - ${transaction.amount} </li> ))}
             </ul>
         </div>
     );
