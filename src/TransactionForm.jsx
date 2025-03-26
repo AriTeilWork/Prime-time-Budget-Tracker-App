@@ -31,4 +31,28 @@ const TransactionForm = ({ onAddTransaction }) => {
     );
 };
 
+const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!text || !amount) {
+        alert('Please fill in both fields');
+        return;
+    }
+
+    const newTransaction = {
+        id: Date.now(),
+        text,
+        amount: parseFloat(amount),
+    };
+
+    onAddTransaction(newTransaction);
+    setText('');
+    setAmount('');
+};
+
+return (
+    <form onSubmit={handleSubmit} className="transaction-form">
+        ...
+    </form>
+);
 export default TransactionForm;
