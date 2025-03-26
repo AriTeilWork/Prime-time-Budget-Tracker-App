@@ -95,7 +95,7 @@ button:hover {
 }
 
 #transaction-list li.income {
-  border-left: 5px solid #2ecc71;
+  border-left: 5px solid #4a90e2;
 }
 
 #transaction-list li.expense {
