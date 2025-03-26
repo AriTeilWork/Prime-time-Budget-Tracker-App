@@ -61,45 +61,18 @@ function App() {
   return (
     <div className="container">
       <h1>Budget Tracker</h1>
-      <div className="balance-box">
-        <h3>Saldo</h3>
-        <div id="balance">{balance}€</div>
-      </div>
-      <form onSubmit={addTransaction}>
-        <label htmlFor="text">Description</label>
-        <input
-          type="text"
-          id="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Example: Smarket"
-        />
-        <label htmlFor="amount">Sum</label>
-        <input
-          type="number"
-          id="amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder="Example -50 or +100"
-        />
-        <button type="submit">Add Transaction</button>
-      </form>
-      <h2>Transactions</h2>
-      <ul id="transaction-list">
-        {transactions.map((transaction) => (
-          <li
-            key={transaction.id}
-            className={transaction.amount < 0 ? 'expense' : 'income'}
-          >
-            {transaction.text}{' '}
-            <span>
-              {transaction.amount < 0 ? '-' : '+'}
-              {Math.abs(transaction.amount)}€
-            </span>
-            <button onClick={() => removeTransaction(transaction.id)}>Poista</button>
-          </li>
-        ))}
-      </ul>
+      <Balance balance={balance} />
+      <TransactionForm
+        text={text}
+        amount={amount}
+        setText={setText}
+        setAmount={setAmount}
+        addTransaction={addTransaction}
+      />
+      <TransactionList
+        transactions={transactions}
+        removeTransaction={removeTransaction}
+      />
     </div>
   );
 }
