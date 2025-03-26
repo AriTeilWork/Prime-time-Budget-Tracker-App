@@ -4,27 +4,8 @@ const TransactionForm = ({ onAddTransaction }) => {
     const [text, setText] = useState('');
     const [amount, setAmount] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (!text || !amount) {
-            alert('Please fill in both fields');
-            return;
-        }
-
-        const newTransaction = {
-            id: Date.now(),
-            text,
-            amount: parseFloat(amount),
-        };
-
-        onAddTransaction(newTransaction);
-        setText('');
-        setAmount('');
-    };
-
     return (
-        <form onSubmit={handleSubmit} className="transaction-form">
+        <form className="transaction-form">
             <div>
                 <label htmlFor="text">Transaction Name</label>
                 <input
